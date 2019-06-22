@@ -8,7 +8,7 @@ Kubernetes demo for Moleculer microservices framework
 [For testing & prototyping install a Kubernetes cluster locally with Minikube.](INSTALL.md)
 
 # Monolith mode
-In this case all services executes in one Pod without transporter.
+In this case all services execute in one Pod without transporter.
 
 ```bash
 kubectl apply -f monolith.yaml
@@ -17,12 +17,12 @@ In browser open the http://192.168.99.100:30000 URL.
 
 
 # Microservices mode
-In this case all services executes in a separated and scaled Pod with NATS transporter.
+In this case all services execute in separated and scaled Pods with NATS transporter.
 
 ```bash
-kubectl apply -f monolith.yaml
+kubectl apply -f micro.yaml
 ```
-In browser open the http://192.168.99.100:30000 URL.
+In browser open the http://192.168.99.100 URL.
 
 ## CLI connection
 To connect to the deployed app install `moleculer-cli` & `nats` globally with `npm i -g moleculer-cli nats` command.
