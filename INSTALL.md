@@ -32,6 +32,10 @@ Start a cluster by running:
 _Runs the Kubernetes components on the host and not in a VM. Using this driver requires Docker (docker install) and a Linux environment_
 `minikube start --vm-driver=none`
 
+Enable Ingress:
+
+`minikube addons enable ingress`
+
 Get IP of cluster:
 
 `minikube ip`
