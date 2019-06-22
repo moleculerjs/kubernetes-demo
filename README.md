@@ -5,6 +5,8 @@
 # kubernetes-demo
 Kubernetes demo for Moleculer microservices framework
 
+[For testing & prototyping install a Kubernetes cluster locally with Minikube.](INSTALL.md)
+
 # Monolith mode
 In this case all services executes in one Pod without transporter.
 
