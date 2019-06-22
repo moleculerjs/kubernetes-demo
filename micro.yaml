@@ -54,7 +54,7 @@ spec:
         - name: SERVICEDIR
           value: services
         - name: SERVICES
-          value: "greeter.service.js"
+          value: greeter
         - name: TRANSPORTER
           value: nats://nats:4222
 
@@ -69,7 +69,7 @@ metadata:
   labels:
     app: micro-demo-api
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: micro-demo-api
@@ -86,7 +86,7 @@ spec:
         - name: SERVICEDIR
           value: services
         - name: SERVICES
-          value: "api.service.js"
+          value: api
         - name: TRANSPORTER
           value: nats://nats:4222
         ports:
@@ -99,7 +99,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: micro-demo-api-gateway
+  name: micro-demo-api
 spec:
   selector:
     app: micro-demo-api
@@ -110,3 +110,22 @@ spec:
       nodePort: 30000
       
   type: NodePort 
+
+---
+#################################
+# K8S Ingress for API Gateway   #
+#################################
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: micro-demo-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        backend:
+          serviceName: micro-demo-api
+          servicePort: 3000    
