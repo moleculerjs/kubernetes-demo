@@ -1,0 +1,111 @@
+#################################
+# NATS Transporter for services #
+#################################
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nats
+  labels:
+    app: nats
+spec:
+  containers:
+    - name: nats
+      image: nats
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nats
+spec:
+  selector:
+    app: nats
+  ports:
+    - port: 4222
+  type: ClusterIP
+
+---
+#################################
+# Greeter service               #
+#################################
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: micro-demo-greeter
+  labels:
+    app: micro-demo-greeter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: micro-demo-greeter
+  template:
+    metadata:
+      labels:
+        app: micro-demo-greeter
+    spec:
+      containers:
+      - name: micro-demo-greeter
+        image: moleculer/demo
+        imagePullPolicy: Always
+        env: 
+        - name: SERVICEDIR
+          value: services
+        - name: SERVICES
+          value: "greeter.service.js"
+        - name: TRANSPORTER
+          value: nats://nats:4222
+
+---
+#################################
+# API service                   #
+#################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: micro-demo-api-deploy
+  labels:
+    app: micro-demo-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: micro-demo-api
+  template:
+    metadata:
+      labels:
+        app: micro-demo-api
+    spec:
+      containers:
+      - name: micro-demo-api
+        image: moleculer/demo
+        imagePullPolicy: Always
+        env: 
+        - name: SERVICEDIR
+          value: services
+        - name: SERVICES
+          value: "api.service.js"
+        - name: TRANSPORTER
+          value: nats://nats:4222
+        ports:
+        - containerPort: 3000
+
+---
+#################################
+# K8S Service for API Gateway   #
+#################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: micro-demo-api-gateway
+spec:
+  selector:
+    app: micro-demo-api
+    
+  ports:
+    - name: http
+      port: 3000
+      nodePort: 30000
+      
+  type: NodePort 

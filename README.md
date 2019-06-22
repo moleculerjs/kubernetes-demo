@@ -11,7 +11,7 @@ In this case all services executes in one Pod without transporter.
 ```bash
 kubectl apply -f monolith.yaml
 ```
-In browser open the http://192.168.99.100:30000 address.
+In browser open the http://192.168.99.100:30000 URL.
 
 # License
 Moleculer is available under the [MIT license](https://tldrlegal.com/license/mit-license).

@@ -1,22 +1,24 @@
+##################################
+# Monolith pod with all services #
+##################################
 apiVersion: apps/v1
 kind: Deployment
-
 metadata:
-  name: moleculer-demo-deploy
+  name: monolith-demo-deploy
   labels:
-    app: moleculer-demo
+    app: monolith-demo
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: moleculer-demo
+      app: monolith-demo
   template:
     metadata:
       labels:
-        app: moleculer-demo
+        app: monolith-demo
     spec:
       containers:
-      - name: moleculer-demo
+      - name: monolith-demo
         image: moleculer/demo
         env: 
         - name: SERVICEDIR
@@ -27,13 +29,16 @@ spec:
         - containerPort: 3000
 
 ---
+#################################
+# K8S Service for API Gateway   #
+#################################
 apiVersion: v1
 kind: Service
 metadata:
-  name: moleculer-demo-api-gateway
+  name: monolith-demo-api-gateway
 spec:
   selector:
-    app: moleculer-demo
+    app: monolith-demo
     
   ports:
     - name: http
