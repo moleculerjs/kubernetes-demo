@@ -13,6 +13,24 @@ kubectl apply -f monolith.yaml
 ```
 In browser open the http://192.168.99.100:30000 URL.
 
+
+# Microservices mode
+In this case all services executes in a separated and scaled Pod with NATS transporter.
+
+```bash
+kubectl apply -f monolith.yaml
+```
+In browser open the http://192.168.99.100:30000 URL.
+
+## CLI connection
+To connect to the deployed app install `moleculer-cli` & `nats` globally with `npm i -g moleculer-cli nats` command.
+
+```bash
+moleculer connect nats://192.168.99.100:32222
+```
+
+![Screenshot](https://user-images.githubusercontent.com/306521/59964682-fb981780-9503-11e9-8f56-6c66af244a13.png)
+
 # License
 Moleculer is available under the [MIT license](https://tldrlegal.com/license/mit-license).
 

@@ -22,7 +22,8 @@ spec:
     app: nats
   ports:
     - port: 4222
-  type: ClusterIP
+      nodePort: 32222
+  type: NodePort
 
 ---
 #################################
@@ -36,7 +37,7 @@ metadata:
   labels:
     app: micro-demo-greeter
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: micro-demo-greeter
