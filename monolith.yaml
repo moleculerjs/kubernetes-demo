@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: moleculer-demo-deploy
+  labels:
+    app: moleculer-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: moleculer-demo
+  template:
+    metadata:
+      labels:
+        app: moleculer-demo
+    spec:
+      containers:
+      - name: moleculer-demo
+        image: moleculer/demo
+        env: 
+        - name: SERVICEDIR
+          value: services
+        - name: SERVICES
+          value: "*.service.js"
+        ports:
+        - containerPort: 3000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: moleculer-demo-api-gateway
+spec:
+  selector:
+    app: moleculer-demo
+    
+  ports:
+    - name: http
+      port: 3000
+      nodePort: 30000
+      
+  type: NodePort 
